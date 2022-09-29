@@ -4,6 +4,8 @@ from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
 
+from models.page import Page
+
 
 class ExternalId(BaseModel):
     _id: str
@@ -29,20 +31,20 @@ class Backdrop(BaseModel):
 
 class Rating(BaseModel):
     _id: str
-    kp: float
-    imdb: float
-    filmCritics: float
-    russianFilmCritics: int
-    await_: int = Field(..., alias='await')
+    kp: float = None
+    imdb: float = None
+    filmCritics: float = None
+    russianFilmCritics: int = None
+    await_: int = Field(default=None, alias='await')
 
 
 class Votes(BaseModel):
     _id: str
     kp: int
-    imdb: int
-    filmCritics: int
-    russianFilmCritics: int
-    await_: int = Field(..., alias='await')
+    imdb: int = None
+    filmCritics: int = None
+    russianFilmCritics: int = None
+    await_: int = Field(default=None, alias='await')
 
 
 class Videos(BaseModel):
@@ -192,7 +194,7 @@ class Watchability(BaseModel):
 
 class Movie(BaseModel):
     externalId: ExternalId
-    logo: Logo
+    logo: Logo = None
     poster: Poster = None
     backdrop: Backdrop = None
     rating: Rating
@@ -222,7 +224,7 @@ class Movie(BaseModel):
     persons: List[Person] = None
     lists: List = None
     typeNumber: int = None
-    alternativeName: str
+    alternativeName: str = None
     enName: Any
     names: List[Name]
     ageRating: Any
@@ -238,9 +240,5 @@ class Movie(BaseModel):
     createDate: str = None
 
 
-class MovieList(BaseModel):
+class MovieList(Page):
     docs: List[Movie]
-    total: int
-    limit: int
-    page: int
-    pages: int
