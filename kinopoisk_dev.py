@@ -1,6 +1,6 @@
 from typing import Union
 
-from models import Movie, MovieList
+from models import MovieList, Movie, Person, PersonList
 from request import get_request
 
 LINK = "https://api.kinopoisk.dev/"
@@ -20,3 +20,9 @@ class KinopoiskDev:
         if 'docs' in response:
             return MovieList(**response)
         return Movie(**response)
+
+    def person(self, field: str, search: str, **kwargs):
+        response = get_request(PERSON, params=self.params | {'field': field, 'search': search} | kwargs)
+        if 'docs' in response:
+            return PersonList(**response)
+        return Person(**response)
