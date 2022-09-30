@@ -51,15 +51,24 @@ class Votes(Base3):
     pass
 
 
+class Trailer(BaseModel):
+    _id: str
+    url: str
+    name: str
+    site: str
+    size: int
+    type: str
+
+
 class Videos(BaseModel):
     _id: str
-    trailers: List
+    trailers: List[Trailer]
     teasers: List
 
 
 class Base4(BaseModel):
     _id: str
-    value: int = None
+    value: int = 0
     currency: str = None
 
 
