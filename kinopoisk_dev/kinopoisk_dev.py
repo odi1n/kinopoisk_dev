@@ -1,8 +1,8 @@
 from typing import Union, List
 
-from field import Field
-from models import MovieList, Movie, Person, PersonList
-from request import get_request, get_grequest
+from .field import Field
+from .models import MovieList, Movie, Person, PersonList
+from .request import get_request, get_grequest
 
 LINK = "https://api.kinopoisk.dev/"
 MOVIE = f'{LINK}movie'

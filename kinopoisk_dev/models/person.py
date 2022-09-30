@@ -4,7 +4,7 @@ from typing import Any, List, Optional
 
 from pydantic import BaseModel
 
-from models.page import Page
+from .page import Page
 
 
 class Fact(BaseModel):

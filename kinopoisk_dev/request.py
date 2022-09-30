@@ -3,8 +3,8 @@ from typing import Any, List
 import grequests
 import requests
 
-from exception import ApiFailedException, ApiUnauthenticated, ApiNotFound
-from field import Field
+from .exception import ApiFailedException, ApiUnauthenticated, ApiNotFound
+from .field import Field
 
 
 def get_request(link: str,
