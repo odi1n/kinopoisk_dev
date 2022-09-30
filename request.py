@@ -1,6 +1,6 @@
 from typing import Any
 
-# import grequests
+import grequests
 import requests
 
 from exception import ApiFailedException, ApiUnauthenticated, ApiNotFound
@@ -20,3 +20,9 @@ def get_request(link: str,
         raise ApiFailedException(response.status_code, response.text)
     else:
         raise Exception(response.status_code, response.text)
+
+
+def get_grequest(link: str,
+                 params: dict = None) -> Any:
+    response = grequests.get(link, params=params)
+    return response
