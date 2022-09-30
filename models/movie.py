@@ -7,29 +7,34 @@ from pydantic import BaseModel, Field
 from models.page import Page
 
 
-class ExternalId(BaseModel):
+class Base1(BaseModel):
     _id: str
     imdb: Any
 
 
-class Logo(BaseModel):
+class ExternalId(Base1):
+    pass
+
+
+class Logo(Base1):
+    pass
+
+
+class Base2(BaseModel):
     _id: str
-    url: Any
+    url: str = None
+    previewUrl: str = None
 
 
-class Poster(BaseModel):
-    _id: str
-    url: str
-    previewUrl: str
+class Poster(Base2):
+    pass
 
 
-class Backdrop(BaseModel):
-    _id: str
-    url: str
-    previewUrl: str
+class Backdrop(Base2):
+    pass
 
 
-class Rating(BaseModel):
+class Base3(BaseModel):
     _id: str
     kp: float = None
     imdb: float = None
@@ -38,13 +43,12 @@ class Rating(BaseModel):
     await_: int = Field(default=None, alias='await')
 
 
-class Votes(BaseModel):
-    _id: str
-    kp: int
-    imdb: int = None
-    filmCritics: int = None
-    russianFilmCritics: int = None
-    await_: int = Field(default=None, alias='await')
+class Rating(Base3):
+    pass
+
+
+class Votes(Base3):
+    pass
 
 
 class Videos(BaseModel):
@@ -53,26 +57,26 @@ class Videos(BaseModel):
     teasers: List
 
 
-class Budget(BaseModel):
+class Base4(BaseModel):
     _id: str
-    value: int
-    currency: str
+    value: int = 0
+    currency: str = None
 
 
-class World(BaseModel):
-    _id: str
-    value: int
-    currency: str
+class Budget(Base4):
+    pass
+
+
+class World(Base4):
+    pass
 
 
 class Russia(BaseModel):
     _id: str
 
 
-class Usa(BaseModel):
-    _id: str
-    value: int
-    currency: str
+class Usa(Base4):
+    pass
 
 
 class Fees(BaseModel):
@@ -83,8 +87,8 @@ class Fees(BaseModel):
 
 
 class Distributors(BaseModel):
-    distributor: str
-    distributorRelease: str
+    distributor: str = None
+    distributorRelease: str = None
 
 
 class Premiere(BaseModel):
@@ -125,7 +129,7 @@ class Person(BaseModel):
     id: int
     photo: str
     name: Optional[str]
-    enName: str
+    enName: str = None
     enProfession: str
 
 
@@ -133,26 +137,14 @@ class Name(BaseModel):
     name: str
 
 
-class Poster1(BaseModel):
-    _id: str
-    url: str
-    previewUrl: str
-
-
 class SequelsAndPrequel(BaseModel):
     _id: str
-    id: int
-    name: str
-    enName: str
-    alternativeName: str
-    type: str
-    poster: Poster1
-
-
-class Poster2(BaseModel):
-    _id: str
-    url: str
-    previewUrl: str
+    id: int = None
+    name: str = None
+    enName: str = None
+    alternativeName: str = None
+    type: str = None
+    poster: Poster = None
 
 
 class SimilarMovy(BaseModel):
@@ -161,7 +153,7 @@ class SimilarMovy(BaseModel):
     name: str
     enName: str
     alternativeName: str
-    poster: Poster2
+    poster: Poster
 
 
 class Technology(BaseModel):
@@ -189,7 +181,7 @@ class Item(BaseModel):
 
 class Watchability(BaseModel):
     _id: str
-    items: List[Item]
+    items: List[Item] = None
 
 
 class Movie(BaseModel):
