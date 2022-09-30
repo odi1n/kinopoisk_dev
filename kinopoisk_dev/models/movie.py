@@ -56,8 +56,8 @@ class Trailer(BaseModel):
     url: str
     name: str
     site: str
-    size: int
-    type: str
+    size: int = None
+    type: str = None
 
 
 class Videos(BaseModel):
