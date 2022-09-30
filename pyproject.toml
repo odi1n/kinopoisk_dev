@@ -5,7 +5,10 @@ description = "Реализация Api для сервиса kinopoisk.dev"
 authors = ["Your Name <you@example.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "kinopoisk_dev"}]
+repository = 'https://github.com/odi1n/kinopoisk_dev'
+documentation = "https://github.com/odi1n/kinopoisk_dev/blob/master/README.md"
+keywords = ['kinopoisk', 'kinopoisk api', 'kinopoisk dev', 'kinopoisk dev api', 'api', 'dev']
+packages = [{ include = "kinopoisk_dev" }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
