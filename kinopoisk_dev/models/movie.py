@@ -59,7 +59,7 @@ class Videos(BaseModel):
 
 class Base4(BaseModel):
     _id: str
-    value: int = 0
+    value: int = None
     currency: str = None
 
 
@@ -71,8 +71,8 @@ class World(Base4):
     pass
 
 
-class Russia(BaseModel):
-    _id: str
+class Russia(Base4):
+    pass
 
 
 class Usa(Base4):
@@ -93,6 +93,8 @@ class Distributors(BaseModel):
 
 class Premiere(BaseModel):
     _id: str
+    country: str = None,
+    world: str = None
 
 
 class Images(BaseModel):
@@ -113,8 +115,8 @@ class SpokenLanguage(BaseModel):
 
 class Fact(BaseModel):
     value: str
-    type: str
-    spoiler: bool
+    type: str = None
+    spoiler: bool = None
 
 
 class Genre(BaseModel):
@@ -151,8 +153,8 @@ class SimilarMovy(BaseModel):
     _id: str
     id: int
     name: str
-    enName: str
-    alternativeName: str
+    enName: str = None
+    alternativeName: str = None
     poster: Poster
 
 
@@ -185,7 +187,7 @@ class Watchability(BaseModel):
 
 
 class Movie(BaseModel):
-    externalId: ExternalId
+    externalId: ExternalId = None
     logo: Logo = None
     poster: Poster = None
     backdrop: Backdrop = None
@@ -204,7 +206,7 @@ class Movie(BaseModel):
     productionCompanies: List[ProductionCompany] = None
     spokenLanguages: List[SpokenLanguage] = None
     id: int
-    type: str
+    type: str = None
     name: str = None
     description: str = None
     slogan: str = None
