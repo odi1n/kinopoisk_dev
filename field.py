@@ -5,7 +5,6 @@ class Field(Enum):
     KP = 'id'
     IMDB = 'externalId.imdb'
     TMDB = 'externalId.tmdb'
-    YEAR = 'year'
 
 
 class Fields(Enum):
