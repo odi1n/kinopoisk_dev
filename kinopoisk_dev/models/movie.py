@@ -161,7 +161,7 @@ class SequelsAndPrequel(BaseModel):
 class SimilarMovy(BaseModel):
     _id: str
     id: int
-    name: str
+    name: str = None
     enName: str = None
     alternativeName: str = None
     poster: Poster
