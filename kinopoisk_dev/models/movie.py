@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
@@ -103,7 +104,7 @@ class Distributors(BaseModel):
 class Premiere(BaseModel):
     _id: str
     country: str = None,
-    world: str = None
+    world: datetime = None
 
 
 class Images(BaseModel):
