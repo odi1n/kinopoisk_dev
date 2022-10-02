@@ -142,6 +142,7 @@ class Person(BaseModel):
     name: Optional[str]
     enName: str = None
     enProfession: str
+    description: str = None
 
 
 class Name(BaseModel):
