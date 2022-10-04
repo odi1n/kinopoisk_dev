@@ -18,10 +18,23 @@ class KinopoiskDev:
         self.params = {"token": token}
 
     def movie(self, field: Field, search: str) -> Movie:
+        """
+        Получить информацию о фильме
+        :param field: Поле
+        :param search: Данные по которым происходит поиск
+        :return:
+        """
         response = get_request(MOVIE, params=self.params | {'field': field.value, 'search[]': search})
         return Movie(**response)
 
     def movies(self, params: List[MovieParams], limit: int = 100, page: int = 1) -> Movies:
+        """
+        Сложная поисковая сортировка
+        :param params: Список параметров для поиска
+        :param limit: Лимит возвращаемых данных
+        :param page: Номер страницы
+        :return:
+        """
         link = "&".join([param.__str__() for param in params])
         responses = get_request(f'{MOVIE}?{link}', params=self.params | {
             'limit': str(limit),
