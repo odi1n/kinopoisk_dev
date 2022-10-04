@@ -9,7 +9,10 @@ class MovieParams:
     sortField: str = None
     sortType: int = None
 
-    def __init__(self, field: Union[str, Field] = None, search: str = None, sortField: str = None,
+    def __init__(self,
+                 field: Union[str, Field] = None,
+                 search: str = None,
+                 sortField: str = None,
                  sortType: int = None):
         self.field = field
         self.search = search
