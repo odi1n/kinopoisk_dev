@@ -26,30 +26,68 @@ $ pip install kinopoisk-dev
 * `Метод` - movie
 
 ```python
+from kinopoisk_dev import KinopoiskDev, Field, MovieParams
+
 kp = KinopoiskDev(token=TOKEN)
-data = kp.movie(field=Field.KP, search="301")
+item = kp.movie(field=Field.KP, search="301")
 ```
 
-#### Получить данные о списке фильмов по Kinopoisk ID
+#### Сложная поисковая конструкция
 
-Возвращает информацию о списке фильмов
+Можно задавать сложные конструкции для поиска.
 
 * `Эндпоинт` - /movie
-* `Метод` - movie_ids
+* `Метод` - movies
+
+##### Пример из [документации](https://kinopoisk.dev/documentation.html#%D0%BF%D0%BE%D0%B8%D1%81%D0%BA-get-5)
+> Представим что нам нужно найти сериалы typeNumber - 2 с рейтингом kp от 7 до 10 которые были выпущены с 2017 по 2020 год. При этом мы ходим чтобы они были осортированы по году в порядке возрастания, но при этом были отсортированы по голосам на imdb в порядке убывания. Для этого нам придется подготовить параметры
 
 ```python
 kp = KinopoiskDev(token=TOKEN)
-datas = kp.movie_ids(field=Field.KP,
-                     ids=["301", "1209527", "1400126", "1445165", "4489530", "4396744", "4963617", "1435399",
-                          "4400160", "4397602", '542352345', ])
+items = kp.movies([
+    MovieParams(field='rating.kp', search='7-10'),
+    MovieParams(field=Field.YEAR, search="2017-2020"),
+    MovieParams(field="typeNumber", search="2"),
+    MovieParams(sortField="year", sortType=1),
+    MovieParams(sortField="votes.imdb", sortType=-1),
+], limit=1000, page=1)
 ```
 
-### Параметры
+##### Получить информацию о списке фильмов
+```python
+kp = KinopoiskDev(token=TOKEN)
+items = kp.movies([
+    MovieParams(field='id', search='301'),
+    MovieParams(field=Field.KP, search="326"),
+])
+```
+
+### Модели параметров
+
+#### MovieParams
+
+Имеет следующие поля
+
+| Поля       | Тип данных| Описание                             |
+| ---------- |:----------|:-------------------------------------|
+| field      | str/Field | Поле по которому происходит поиск    |
+| search     | str       | Данные по которым происходит поиск   |
+| sortField  | str       | По какому полю происходит сортировка |
+| sortType   | int       | В каком порядке выводить(1\-1)       |
+
+### Заготовленные поля
 
 #### Field
 
 | Поля       | Значение   | Описание |
 | ---------- |:----------:| :-----|
-| KP    | id              | Поиск по id kinopoisk |
-| IMDB  | externalId.imdb | Поиск по id imdb |
-| TMDB  | externalId.tmdb | Поиск по id tmdb |
+| KP            | id              | Поиск по id kinopoisk |
+| IMDB          | externalId.imdb | Поиск по id imdb |
+| TMDB          | externalId.tmdb | Поиск по id tmdb |
+| TYPE          | type | Поиск по типу |
+| NAME          | name | Поиск по имени |
+| YEAR          | year | Поиск по году |
+| TYPE_NUMBER   | typeNumber | Поиск по typeNumber |
+| MOVIE_ID      | movieId | Поиск по movieId |
+| LANGUAGE      | language | Поиск по языку |
+| STATUS        | status | Поиск по статусу |
