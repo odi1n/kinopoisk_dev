@@ -26,7 +26,7 @@ $ pip install kinopoisk-dev
 * `Метод` - movie
 
 ```python
-from kinopoisk_dev import KinopoiskDev, Field, MovieParams
+from kinopoisk_dev import KinopoiskDev, Field
 
 kp = KinopoiskDev(token=TOKEN)
 item = kp.movie(field=Field.KP, search="301")
@@ -43,6 +43,8 @@ item = kp.movie(field=Field.KP, search="301")
 > Представим что нам нужно найти сериалы typeNumber - 2 с рейтингом kp от 7 до 10 которые были выпущены с 2017 по 2020 год. При этом мы ходим чтобы они были осортированы по году в порядке возрастания, но при этом были отсортированы по голосам на imdb в порядке убывания. Для этого нам придется подготовить параметры
 
 ```python
+from kinopoisk_dev import KinopoiskDev, Field, MovieParams
+
 kp = KinopoiskDev(token=TOKEN)
 items = kp.movies([
     MovieParams(field='rating.kp', search='7-10'),
@@ -55,6 +57,8 @@ items = kp.movies([
 
 ##### Получить информацию о списке фильмов
 ```python
+from kinopoisk_dev import KinopoiskDev, Field, MovieParams
+
 kp = KinopoiskDev(token=TOKEN)
 items = kp.movies([
     MovieParams(field='id', search='301'),
