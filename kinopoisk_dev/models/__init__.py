@@ -1,2 +1,2 @@
-from .movie import Movie, MovieList
+from .movie import Movie, Movies
 from .person import Person, PersonList
