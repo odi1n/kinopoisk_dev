@@ -21,7 +21,7 @@ class KinopoiskDev:
         response = get_request(MOVIE, params=self.params | {'field': field.value, 'search[]': search})
         return Movie(**response)
 
-    def movies(self, params: List[MovieParams], limit: int = 10, page: int = 1) -> Movies:
+    def movies(self, params: List[MovieParams], limit: int = 100, page: int = 1) -> Movies:
         link = "&".join([param.__str__() for param in params])
         responses = get_request(f'{MOVIE}?{link}', params=self.params | {
             'limit': str(limit),
