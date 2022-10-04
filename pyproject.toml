@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kinopoisk-dev"
-version = "0.1.3"
+version = "0.1.4"
 description = "Реализация Api для сервиса kinopoisk.dev"
 authors = ["Your Name <you@example.com>"]
 license = "MIT"
@@ -14,7 +14,6 @@ packages = [{ include = "kinopoisk_dev" }]
 python = "^3.9"
 requests = "^2.26.0"
 pydantic = "^1.9.2"
-grequests = "^0.6.0"
 
 
 [build-system]

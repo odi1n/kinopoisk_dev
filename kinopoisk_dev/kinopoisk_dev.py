@@ -1,8 +1,9 @@
-from typing import Union, List
+from typing import List
 
 from .field import Field
-from .models import MovieList, Movie, Person, PersonList
-from .request import get_request, get_grequest
+from .models import Movies, Movie, Person, PersonList
+from .params.movie_params import MovieParams
+from .request import get_request
 
 LINK = "https://api.kinopoisk.dev/"
 MOVIE = f'{LINK}movie'
@@ -16,18 +17,30 @@ class KinopoiskDev:
     def __init__(self, token: str) -> None:
         self.params = {"token": token}
 
-    def movie(self, field: Field, search: str) -> Union[Movie, MovieList]:
-        response = get_request(MOVIE, params=self.params | {'field': field.value, 'search': search})
-        if 'docs' in response:
-            raise Exception("Метод возвращает одно значение")
+    def movie(self, field: Field, search: str) -> Movie:
+        """
+        Получить информацию о фильме
+        :param field: Поле
+        :param search: Данные по которым происходит поиск
+        :return:
+        """
+        response = get_request(MOVIE, params=self.params | {'field': field.value, 'search[]': search})
         return Movie(**response)
 
-    def movie_ids(self, field: Field, ids: List[str]):
-        responses = get_grequest(MOVIE, params=self.params, field=field, ids=ids)
-        movies = []
-        for resp in responses:
-            movies.append(Movie(**resp.json()) if resp.status_code == 200 else None)
-        return movies
+    def movies(self, params: List[MovieParams], limit: int = 100, page: int = 1) -> Movies:
+        """
+        Сложная поисковая сортировка
+        :param params: Список параметров для поиска
+        :param limit: Лимит возвращаемых данных
+        :param page: Номер страницы
+        :return:
+        """
+        link = "&".join([param.__str__() for param in params])
+        responses = get_request(f'{MOVIE}?{link}', params=self.params | {
+            'limit': str(limit),
+            'page': str(page)
+        })
+        return Movies(**responses)
 
     # def person(self, field: str, search: str, **kwargs):
     #     response = get_request(PERSON, params=self.params | {'field': field, 'search': search} | kwargs)

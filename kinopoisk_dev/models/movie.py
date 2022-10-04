@@ -245,5 +245,5 @@ class Movie(BaseModel):
     createDate: str = None
 
 
-class MovieList(Page):
+class Movies(Page):
     docs: List[Movie]
