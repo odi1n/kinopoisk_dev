@@ -2,6 +2,7 @@ from typing import List
 
 from .field import Field
 from .models import Movies, Movie, Person, PersonList
+from .models.season import Season
 from .params.movie_params import MovieParams
 from .request import get_request
 
@@ -54,5 +55,7 @@ class KinopoiskDev:
     # def image(self):
     #     pass
     #
-    # def season(self):
-    #     pass
+    def season(self, field: Field, search: str):
+        response = get_request(SEASON, params=self.params | {'field': field.value,
+                                                             'search': search})
+        return Season(**response)
