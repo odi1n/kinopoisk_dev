@@ -55,7 +55,7 @@ class KinopoiskDev:
     # def image(self):
     #     pass
     #
-    def season(self, field: Field, search: str):
+    def season(self, field: Field, search: str) -> Season:
         response = get_request(SEASON, params=self.params | {'field': field.value,
                                                              'search': search})
         return Season(**response)
