@@ -4,6 +4,7 @@ from .field import Field
 from .models import Movies, Movie, Person, PersonList
 from .models.season import Season
 from .params.movie_params import MovieParams
+from .params.season_params import SeasonParams
 from .request import get_request
 
 LINK = "https://api.kinopoisk.dev/"
@@ -59,3 +60,11 @@ class KinopoiskDev:
         response = get_request(SEASON, params=self.params | {'field': field.value,
                                                              'search': search})
         return Season(**response)
+
+    def seasons(self, params: List[SeasonParams], limit: int = 100, page: int = 1) -> Season:
+        link = "&".join([param.__str__() for param in params])
+        responses = get_request(f'{SEASON}?{link}', params=self.params | {
+            'limit': str(limit),
+            'page': str(page)
+        })
+        return Season(**responses)
