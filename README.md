@@ -40,6 +40,7 @@ item = kp.movie(field=Field.KP, search="301")
 * `Метод` - movies
 
 ##### Пример из [документации](https://kinopoisk.dev/documentation.html#%D0%BF%D0%BE%D0%B8%D1%81%D0%BA-get-5)
+
 > Представим что нам нужно найти сериалы typeNumber - 2 с рейтингом kp от 7 до 10 которые были выпущены с 2017 по 2020 год. При этом мы ходим чтобы они были осортированы по году в порядке возрастания, но при этом были отсортированы по голосам на imdb в порядке убывания. Для этого нам придется подготовить параметры
 
 ```python
@@ -56,6 +57,7 @@ items = kp.movies([
 ```
 
 ##### Получить информацию о списке фильмов
+
 ```python
 from kinopoisk_dev import KinopoiskDev, Field, MovieParams
 
@@ -64,6 +66,45 @@ items = kp.movies([
     MovieParams(field='id', search='301'),
     MovieParams(field=Field.KP, search="326"),
 ])
+```
+
+### Season
+
+Методы для работы с сезонами сериалов
+
+#### Получить сезоны сериалы
+
+Возвращает информацию о сезонах
+
+- `Эндпоиск` - /season
+- `Метод` - season
+
+```python
+from kinopoisk_dev import KinopoiskDev, Field, SeasonParams
+
+kp = KinopoiskDev(token=TOKEN)
+season = kp.season(field=Field.MOVIE_ID, search="1316601")
+```
+
+#### Получить сезоны списка сериалов
+
+Возвращает информацию о сезонах списка сериалов
+
+- `Эндпоиск` - /season
+- `Метод` - seasons
+
+```python
+from kinopoisk_dev import KinopoiskDev, Field, SeasonParams
+
+kp = KinopoiskDev(token=TOKEN)
+seasons = kp.seasons(params=[
+    SeasonParams(field=Field.MOVIE_ID, search="1316601"),
+    SeasonParams(field="movieId", search="4407805"),
+    SeasonParams(field=Field.MOVIE_ID, search="4476467"),
+    SeasonParams(field=Field.MOVIE_ID, search="4489470"),
+    SeasonParams(field=Field.MOVIE_ID, search="4670531"),
+    SeasonParams(field=Field.MOVIE_ID, search="571335"),
+], limit=1000, page=1, )
 ```
 
 ### Модели параметров
