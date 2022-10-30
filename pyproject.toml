@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kinopoisk-dev"
-version = "0.1.5"
+version = "0.1.6"
 description = "Реализация Api для сервиса kinopoisk.dev"
 authors = ["Your Name <you@example.com>"]
 license = "MIT"
