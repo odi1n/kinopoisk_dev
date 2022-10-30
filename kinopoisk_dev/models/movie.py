@@ -90,7 +90,7 @@ class Usa(Base4):
 
 
 class Fees(BaseModel):
-    world: World
+    world: World = None
     russia: Russia = None
     usa: Usa = None
     _id: str
