@@ -26,7 +26,7 @@ class KinopoiskDev:
         :param search: Данные по которым происходит поиск
         :return:
         """
-        response = get_request(MOVIE, params=self.params | {'field': field.value, 'search[]': search})
+        response = get_request(MOVIE, params=self.params | {'field': field.value, 'search': search})
         return Movie(**response)
 
     def movies(self, params: List[MovieParams], limit: int = 100, page: int = 1) -> Movies:
