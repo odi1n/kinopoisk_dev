@@ -23,8 +23,8 @@ class Logo(Base1):
 
 class Base2(BaseModel):
     _id: str
-    url: str = None
-    previewUrl: str = None
+    url: Optional[str]
+    previewUrl: Optional[str]
 
 
 class Poster(Base2):
@@ -37,10 +37,10 @@ class Backdrop(Base2):
 
 class Base3(BaseModel):
     _id: str
-    kp: float = None
-    imdb: float = None
-    filmCritics: float = None
-    russianFilmCritics: int = None
+    kp: Optional[float]
+    imdb: Optional[float]
+    filmCritics: Optional[float]
+    russianFilmCritics: Optional[int]
     await_: int = Field(default=None, alias='await')
 
 
@@ -57,8 +57,8 @@ class Trailer(BaseModel):
     url: str
     name: str
     site: str
-    size: int = None
-    type: str = None
+    size: Optional[int]
+    type: Optional[str]
 
 
 class Videos(BaseModel):
@@ -70,7 +70,7 @@ class Videos(BaseModel):
 class Base4(BaseModel):
     _id: str
     value: int = 0
-    currency: str = None
+    currency: Optional[str]
 
 
 class Budget(Base4):
@@ -90,21 +90,21 @@ class Usa(Base4):
 
 
 class Fees(BaseModel):
-    world: World = None
-    russia: Russia = None
-    usa: Usa = None
+    world: Optional[World]
+    russia: Optional[Russia]
+    usa: Optional[Usa]
     _id: str
 
 
 class Distributors(BaseModel):
-    distributor: str = None
-    distributorRelease: str = None
+    distributor: Optional[str]
+    distributorRelease: Optional[str]
 
 
 class Premiere(BaseModel):
     _id: str
-    country: str = None,
-    world: datetime = None
+    country: Optional[str]
+    world: Optional[datetime]
 
 
 class Images(BaseModel):
@@ -125,8 +125,8 @@ class SpokenLanguage(BaseModel):
 
 class Fact(BaseModel):
     value: str
-    type: str = None
-    spoiler: bool = None
+    type: Optional[str]
+    spoiler: Optional[bool]
 
 
 class Genre(BaseModel):
@@ -141,9 +141,9 @@ class Person(BaseModel):
     id: int
     photo: str
     name: Optional[str]
-    enName: str = None
+    enName: Optional[str]
     enProfession: str
-    description: str = None
+    description: Optional[str]
 
 
 class Name(BaseModel):
@@ -152,20 +152,20 @@ class Name(BaseModel):
 
 class SequelsAndPrequel(BaseModel):
     _id: str
-    id: int = None
-    name: str = None
-    enName: str = None
-    alternativeName: str = None
-    type: str = None
-    poster: Poster = None
+    id: Optional[int]
+    name: Optional[str]
+    enName: Optional[str]
+    alternativeName: Optional[str]
+    type: Optional[str]
+    poster: Optional[Poster]
 
 
 class SimilarMovy(BaseModel):
     _id: str
     id: int
-    name: str = None
-    enName: str = None
-    alternativeName: str = None
+    name: Optional[str]
+    enName: Optional[str]
+    alternativeName: Optional[str]
     poster: Poster
 
 
@@ -194,55 +194,55 @@ class Item(BaseModel):
 
 class Watchability(BaseModel):
     _id: str
-    items: List[Item] = None
+    items: Optional[List[Item]]
 
 
 class Movie(BaseModel):
-    externalId: ExternalId = None
-    logo: Logo = None
-    poster: Poster = None
-    backdrop: Backdrop = None
+    externalId: Optional[ExternalId]
+    logo: Optional[Logo]
+    poster: Optional[Poster]
+    backdrop: Optional[Backdrop]
     rating: Rating
     votes: Votes
-    videos: Videos = None
-    budget: Budget = None
-    fees: Fees = None
-    distributors: Distributors = None
-    premiere: Premiere = None
-    images: Images = None
-    collections: List = None
-    updateDates: List[str] = None
-    status: str = None
-    movieLength: int = None
-    productionCompanies: List[ProductionCompany] = None
-    spokenLanguages: List[SpokenLanguage] = None
+    videos: Optional[Videos]
+    budget: Optional[Budget]
+    fees: Optional[Fees]
+    distributors: Optional[Distributors]
+    premiere: Optional[Premiere]
+    images: Optional[Images]
+    collections: Optional[List]
+    updateDates: Optional[List[str]]
+    status: Optional[str]
+    movieLength: Optional[int]
+    productionCompanies: Optional[List[ProductionCompany]]
+    spokenLanguages: Optional[List[SpokenLanguage]]
     id: int
-    type: str = None
-    name: str = None
-    description: str = None
-    slogan: str = None
-    year: int = None
-    facts: List[Fact] = None
-    genres: List[Genre] = None
-    countries: List[Country] = None
+    type: Optional[str]
+    name: Optional[str]
+    description: Optional[str]
+    slogan: Optional[str]
+    year: Optional[int]
+    facts: Optional[List[Fact]]
+    genres: Optional[List[Genre]]
+    countries: Optional[List[Country]]
     seasonsInfo: List = None
-    persons: List[Person] = None
+    persons: Optional[List[Person]]
     lists: List = None
-    typeNumber: int = None
-    alternativeName: str = None
+    typeNumber: Optional[int]
+    alternativeName: Optional[str]
     enName: Any
-    names: List[Name]
+    names: Optional[List[Name]]
     ageRating: Any
-    ratingMpaa: str = None
-    sequelsAndPrequels: List[SequelsAndPrequel] = None
-    shortDescription: str = None
-    similarMovies: List[SimilarMovy] = None
-    technology: Technology = None
-    ticketsOnSale: bool = None
-    updatedAt: str = None
-    imagesInfo: ImagesInfo = None
-    watchability: Watchability = None
-    createDate: str = None
+    ratingMpaa: Optional[str]
+    sequelsAndPrequels: Optional[List[SequelsAndPrequel]]
+    shortDescription: Optional[str]
+    similarMovies: Optional[List[SimilarMovy]]
+    technology: Optional[Technology]
+    ticketsOnSale: Optional[bool]
+    updatedAt: Optional[str]
+    imagesInfo: Optional[ImagesInfo]
+    watchability: Optional[Watchability]
+    createDate: Optional[str]
 
 
 class Movies(Page):

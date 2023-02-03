@@ -1,6 +1,6 @@
 from typing import List
 
-from .field import Field
+from .field import Field, IdField
 from .models import Movies, Movie, Person, PersonList
 from .models.season import Season
 from .params.movie_params import MovieParams
@@ -19,7 +19,7 @@ class KinopoiskDev:
     def __init__(self, token: str) -> None:
         self.params = {"token": token}
 
-    def movie(self, field: Field, search: str) -> Movie:
+    def movie(self, field: IdField, search: str) -> Movie:
         """
         Получить информацию о фильме
         :param field: Поле
