@@ -29,7 +29,7 @@ $ pip install kinopoisk-dev
 from kinopoisk_dev import KinopoiskDev, Field
 
 kp = KinopoiskDev(token=TOKEN)
-item = kp.movie(field=Field.KP, search="301")
+item = kp.movie(field=IdField.KP, search="301")
 ```
 
 #### Сложная поисковая конструкция
