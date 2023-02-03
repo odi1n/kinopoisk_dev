@@ -39,6 +39,17 @@ item = kp.movie(field=IdField.KP, search="301")
 * `Эндпоинт` - /movie
 * `Метод` - movies
 
+##### Получить информацию по имени фильма
+
+```python
+from kinopoisk_dev import KinopoiskDev, Field, MovieParams
+
+kp = KinopoiskDev(token=TOKEN)
+items = kp.movies([
+    MovieParams(field=Field.NAME, search='Аватар'),
+])
+```
+
 ##### Пример из [документации](https://kinopoisk.dev/documentation.html#%D0%BF%D0%BE%D0%B8%D1%81%D0%BA-get-5)
 
 > Представим что нам нужно найти сериалы typeNumber - 2 с рейтингом kp от 7 до 10 которые были выпущены с 2017 по 2020 год. При этом мы ходим чтобы они были осортированы по году в порядке возрастания, но при этом были отсортированы по голосам на imdb в порядке убывания. Для этого нам придется подготовить параметры
