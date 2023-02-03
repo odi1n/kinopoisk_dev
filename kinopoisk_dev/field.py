@@ -1,8 +1,13 @@
 from enum import Enum
 
 
+class IdField(Enum):
+    KP = "id"
+    IMDB = 'externalId.imdb'
+
+
 class Field(Enum):
-    KP = 'id'
+    KP = "id"
     IMDB = 'externalId.imdb'
     TMDB = 'externalId.tmdb'
 
