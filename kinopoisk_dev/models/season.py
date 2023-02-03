@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, List
+from typing import Any, List, Optional
 
 from pydantic import BaseModel
 
@@ -8,10 +8,10 @@ from .page import Page
 
 class Episode(BaseModel):
     number: int
-    name: str = None
-    enName: str=None
+    name: Optional[str]
+    enName: Optional[str]
     description: Any
-    date: datetime = None
+    date: Optional[datetime]
 
 
 class Doc(BaseModel):
