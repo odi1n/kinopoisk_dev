@@ -26,7 +26,7 @@ $ pip install kinopoisk-dev
 * `Метод` - movie
 
 ```python
-from kinopoisk_dev import KinopoiskDev, Field
+from kinopoisk_dev import KinopoiskDev, IdField
 
 kp = KinopoiskDev(token=TOKEN)
 item = kp.movie(field=IdField.KP, search="301")
