@@ -1,5 +1,7 @@
 from kinopoisk_dev import IdField, KinopoiskDev
 
+TOKEN = ""
+
 kp = KinopoiskDev(token=TOKEN)
 
 
