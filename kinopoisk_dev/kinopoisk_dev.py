@@ -1,35 +1,70 @@
 from typing import List
 
-from .field import Field, IdField
-from .models import Movies, Movie, Person, PersonList
-from .models.season import Season
-from .params.movie_params import MovieParams
-from .params.season_params import SeasonParams
-from .request import get_request
-
-LINK = "https://api.kinopoisk.dev/"
-MOVIE = f'{LINK}movie'
-PERSON = f'{LINK}person'
-REVIEW = f'{LINK}review'
-IMAGE = f'{LINK}image'
-SEASON = f'{LINK}season'
+from .fields import PossValField
+from .model import (
+    ImageDocsResponseDto,
+    Movie,
+    MovieDocsResponseDto,
+    Person,
+    PersonDocsResponseDto,
+    PossibleValue,
+    PossibleValueDto,
+    ReviewDocsResponseDto,
+    SeasonDocsResponseDto,
+)
+from .params import ImageParams, MovieParams, PersonParams, ReviewParams, SeasonParams
+from .request import AsyncRequest, Request
+from .urls import MOVIE, PERSON, POSS_VAL_BY_FIELD, RANDOM, REVIEW, SEASON
 
 
 class KinopoiskDev:
-    def __init__(self, token: str) -> None:
-        self.params = {"token": token}
+    __version__ = "1.0.3"
 
-    def movie(self, field: IdField, search: str) -> Movie:
-        """
-        Получить информацию о фильме
-        :param field: Поле
-        :param search: Данные по которым происходит поиск
-        :return:
-        """
-        response = get_request(MOVIE, params=self.params | {'field': field.value, 'search': search})
+    def __init__(self, token: str) -> None:
+        self.request = Request(token=token)
+        self.arequest = AsyncRequest(token=token)
+
+    def random(self) -> Movie:
+        response = self.request.get(RANDOM)
         return Movie(**response)
 
-    def movies(self, params: List[MovieParams], limit: int = 100, page: int = 1) -> Movies:
+    async def arandom(self) -> Movie:
+        response = await self.arequest.get(RANDOM)
+        return Movie(**response)
+
+    def possible_values_by_field(
+        self, poss_val_field: PossValField
+    ) -> List[PossibleValue]:
+        response = self.request.get(POSS_VAL_BY_FIELD, {"field": poss_val_field.value})
+        return PossibleValueDto.parse_obj(response).__root__
+
+    async def apossible_values_by_field(
+        self, poss_val_field: PossValField
+    ) -> List[PossibleValue]:
+        response = await self.arequest.get(
+            POSS_VAL_BY_FIELD, {"field": poss_val_field.value}
+        )
+        return PossibleValueDto.parse_obj(response).__root__
+
+    def find_one_movie(self, id: int) -> Movie:
+        """
+        Получить информацию о фильме
+        :param id: Kinopoisk id
+        :return:
+        """
+        response = self.request.get(f"{MOVIE}/{id}")
+        return Movie(**response)
+
+    async def afind_one_movie(self, id: int) -> Movie:
+        """
+        Получить информацию о фильме
+        :param id: Kinopoisk id
+        :return:
+        """
+        response = await self.arequest.get(f"{MOVIE}/{id}")
+        return Movie(**response)
+
+    def find_many_movie(self, params: List[MovieParams]) -> MovieDocsResponseDto:
         """
         Сложная поисковая сортировка
         :param params: Список параметров для поиска
@@ -38,33 +73,67 @@ class KinopoiskDev:
         :return:
         """
         link = "&".join([param.__str__() for param in params])
-        responses = get_request(f'{MOVIE}?{link}', params=self.params | {
-            'limit': str(limit),
-            'page': str(page)
-        })
-        return Movies(**responses)
+        responses = self.request.get(f"{MOVIE}?{link}")
+        return MovieDocsResponseDto(**responses)
 
-    # def person(self, field: str, search: str, **kwargs):
-    #     response = get_request(PERSON, params=self.params | {'field': field, 'search': search} | kwargs)
-    #     if 'docs' in response:
-    #         return PersonList(**response)
-    #     return Person(**response)
-    #
-    # def review(self):
-    #     pass
-    #
-    # def image(self):
-    #     pass
-    #
-    def season(self, field: Field, search: str) -> Season:
-        response = get_request(SEASON, params=self.params | {'field': field.value,
-                                                             'search': search})
-        return Season(**response)
-
-    def seasons(self, params: List[SeasonParams], limit: int = 100, page: int = 1) -> Season:
+    async def afind_many_movie(self, params: List[MovieParams]) -> MovieDocsResponseDto:
+        """
+        Сложная поисковая сортировка
+        :param params: Список параметров для поиска
+        :param limit: Лимит возвращаемых данных
+        :param page: Номер страницы
+        :return:
+        """
         link = "&".join([param.__str__() for param in params])
-        responses = get_request(f'{SEASON}?{link}', params=self.params | {
-            'limit': str(limit),
-            'page': str(page)
-        })
-        return Season(**responses)
+        responses = await self.arequest.get(f"{MOVIE}?{link}")
+        return MovieDocsResponseDto(**responses)
+
+    def seasons(self, params: List[SeasonParams]) -> SeasonDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        responses = self.request.get(f"{SEASON}?{link}")
+        return SeasonDocsResponseDto(**responses)
+
+    async def aseasons(self, params: List[SeasonParams]) -> SeasonDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        responses = await self.arequest.get(f"{SEASON}?{link}")
+        return SeasonDocsResponseDto(**responses)
+
+    def review(self, params: List[ReviewParams]) -> ReviewDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        response = self.request.get(f"{REVIEW}?{link}")
+        return ReviewDocsResponseDto(**response)
+
+    async def areview(self, params: List[ReviewParams]) -> ReviewDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        response = await self.arequest.get(f"{REVIEW}?{link}")
+        return ReviewDocsResponseDto(**response)
+
+    def find_one_person(self, id: int) -> Person:
+        response = self.request.get(f"{PERSON}/{id}")
+        return Person(**response)
+
+    async def afind_one_person(self, id: int) -> Person:
+        response = await self.arequest.get(f"{PERSON}/{id}")
+        return Person(**response)
+
+    def find_many_person(self, params: List[PersonParams]) -> PersonDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        response = self.request.get(f"{PERSON}?{link}")
+        return PersonDocsResponseDto(**response)
+
+    async def afind_many_person(
+        self, params: List[PersonParams]
+    ) -> PersonDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        response = await self.arequest.get(f"{PERSON}?{link}")
+        return PersonDocsResponseDto(**response)
+
+    def image(self, params: List[ImageParams]) -> ImageDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        response = self.request.get(f"{PERSON}?{link}")
+        return ImageDocsResponseDto(**response)
+
+    async def aimage(self, params: List[ImageParams]) -> ImageDocsResponseDto:
+        link = "&".join([param.__str__() for param in params])
+        response = await self.arequest.get(f"{PERSON}?{link}")
+        return ImageDocsResponseDto(**response)
