@@ -14,6 +14,7 @@ from .model import (
 )
 from .params import ImageParams, MovieParams, PersonParams, ReviewParams, SeasonParams
 from .request import AsyncRequest, Request
+from .untils import get_params
 from .urls import MOVIE, PERSON, POSS_VAL_BY_FIELD, RANDOM, REVIEW, SEASON
 
 
@@ -88,77 +89,75 @@ class KinopoiskDev:
         response = await self.arequest.get(f"{MOVIE}/{id}")
         return Movie(**response)
 
-    def find_many_movie(self, params: List[MovieParams]) -> MovieDocsResponseDto:
+    def find_many_movie(self, params: List[MovieParams] = None) -> MovieDocsResponseDto:
         """
         Синхронный метод.
         Поиск тайтлов
         :param params: Список параметров
         :return: Список фильмов
         """
-        link = "&".join([param.__str__() for param in params])
-        responses = self.request.get(f"{MOVIE}?{link}")
+        responses = self.request.get(f"{MOVIE}?{get_params(params)}")
         return MovieDocsResponseDto(**responses)
 
-    async def afind_many_movie(self, params: List[MovieParams]) -> MovieDocsResponseDto:
+    async def afind_many_movie(
+        self, params: List[MovieParams] = None
+    ) -> MovieDocsResponseDto:
         """
         Асинхронный метод.
         Поиск тайтлов
         :param params: Список параметров
         :return: Список фильмов
         """
-        link = "&".join([param.__str__() for param in params])
-        responses = await self.arequest.get(f"{MOVIE}?{link}")
+        responses = await self.arequest.get(f"{MOVIE}?{get_params(params)}")
         return MovieDocsResponseDto(**responses)
 
-    def seasons(self, params: List[SeasonParams]) -> SeasonDocsResponseDto:
+    def seasons(self, params: List[SeasonParams] = None) -> SeasonDocsResponseDto:
         """
         Синхронный метод.
         Поиск сезонов
         :param params: Список параметров
         :return: Список информации о сезонах
         """
-        link = "&".join([param.__str__() for param in params])
-        responses = self.request.get(f"{SEASON}?{link}")
+        responses = self.request.get(f"{SEASON}?{get_params(params)}")
         return SeasonDocsResponseDto(**responses)
 
-    async def aseasons(self, params: List[SeasonParams]) -> SeasonDocsResponseDto:
+    async def aseasons(
+        self, params: List[SeasonParams] = None
+    ) -> SeasonDocsResponseDto:
         """
         Асинхронный метод.
         Поиск сезонов
         :param params: Список параметров
         :return: Список информации о сезонах
         """
-        link = "&".join([param.__str__() for param in params])
-        responses = await self.arequest.get(f"{SEASON}?{link}")
+        responses = await self.arequest.get(f"{SEASON}?{get_params(params)}")
         return SeasonDocsResponseDto(**responses)
 
-    def review(self, params: List[ReviewParams]) -> ReviewDocsResponseDto:
+    def review(self, params: List[ReviewParams] = None) -> ReviewDocsResponseDto:
         """
         Синхронный метод.
         Поиск отзывов
         :param params: Список параметров
         :return: Список информации об отзывах
         """
-        link = "&".join([param.__str__() for param in params])
-        response = self.request.get(f"{REVIEW}?{link}")
+        response = self.request.get(f"{REVIEW}?{get_params(params)}")
         return ReviewDocsResponseDto(**response)
 
-    async def areview(self, params: List[ReviewParams]) -> ReviewDocsResponseDto:
+    async def areview(self, params: List[ReviewParams] = None) -> ReviewDocsResponseDto:
         """
         Асинхронный метод.
         Поиск отзывов
         :param params: Список параметров
         :return: Список информации об отзывах
         """
-        link = "&".join([param.__str__() for param in params])
-        response = await self.arequest.get(f"{REVIEW}?{link}")
+        response = await self.arequest.get(f"{REVIEW}?{get_params(params)}")
         return ReviewDocsResponseDto(**response)
 
     def find_one_person(self, id: int) -> Person:
         """
         Синхронный метод.
         Поиск по id
-        :param params: Person ID, информацию о котором нам нужно получить
+        :param id: Person ID, информацию о котором нам нужно получить
         :return: Информация о Person
         """
         response = self.request.get(f"{PERSON}/{id}")
@@ -168,25 +167,26 @@ class KinopoiskDev:
         """
         Асинхронный метод.
         Поиск по id
-        :param params: Person ID, информацию о котором нам нужно получить
+        :param id: Person ID, информацию о котором нам нужно получить
         :return: Информация о Person
         """
         response = await self.arequest.get(f"{PERSON}/{id}")
         return Person(**response)
 
-    def find_many_person(self, params: List[PersonParams]) -> PersonDocsResponseDto:
+    def find_many_person(
+        self, params: List[PersonParams] = None
+    ) -> PersonDocsResponseDto:
         """
         Синхронный метод.
         Поиск Персон
         :param params: Список параметров
         :return: Список информации о Person
         """
-        link = "&".join([param.__str__() for param in params])
-        response = self.request.get(f"{PERSON}?{link}")
+        response = self.request.get(f"{PERSON}?{get_params(params)}")
         return PersonDocsResponseDto(**response)
 
     async def afind_many_person(
-        self, params: List[PersonParams]
+        self, params: List[PersonParams] = None
     ) -> PersonDocsResponseDto:
         """
         Асинхронный метод.
@@ -194,28 +194,25 @@ class KinopoiskDev:
         :param params: Список параметров
         :return: Список информации о Person
         """
-        link = "&".join([param.__str__() for param in params])
-        response = await self.arequest.get(f"{PERSON}?{link}")
+        response = await self.arequest.get(f"{PERSON}?{get_params(params)}")
         return PersonDocsResponseDto(**response)
 
-    def image(self, params: List[ImageParams]) -> ImageDocsResponseDto:
+    def image(self, params: List[ImageParams] = None) -> ImageDocsResponseDto:
         """
         Синхронный метод.
         Поиск изображений
         :param params: Список параметров
         :return: Список информации о image
         """
-        link = "&".join([param.__str__() for param in params])
-        response = self.request.get(f"{PERSON}?{link}")
+        response = self.request.get(f"{PERSON}?{get_params(params)}")
         return ImageDocsResponseDto(**response)
 
-    async def aimage(self, params: List[ImageParams]) -> ImageDocsResponseDto:
+    async def aimage(self, params: List[ImageParams] = None) -> ImageDocsResponseDto:
         """
         Асинхронный метод.
         Поиск изображений
         :param params: Список параметров
         :return: Список информации о image
         """
-        link = "&".join([param.__str__() for param in params])
-        response = await self.arequest.get(f"{PERSON}?{link}")
+        response = await self.arequest.get(f"{PERSON}?{get_params(params)}")
         return ImageDocsResponseDto(**response)
