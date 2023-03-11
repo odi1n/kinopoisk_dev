@@ -1,21 +1,43 @@
-from kinopoisk_dev import IdField, KinopoiskDev
+import asyncio
+
+from kinopoisk_dev import KinopoiskDev, MovieField, MovieParams
+from kinopoisk_dev.model import MovieDocsResponseDto
 
 TOKEN = ""
 
-kp = KinopoiskDev(token=TOKEN)
+
+async def get_movies_async() -> MovieDocsResponseDto:
+    """
+    Асинхронный запрос.
+    Получить информацию о фильмы с использованием параметров
+    :return: Список фильмов
+    """
+    kp = KinopoiskDev(token=TOKEN)
+    item = await kp.afind_many_movie(
+        params=[
+            MovieParams(keys=MovieField.PAGE, value=1),
+            MovieParams(keys=MovieField.LIMIT, value=100),
+        ]
+    )
+    return item
 
 
-def main():
-    return kp.find_one_movie(666)
+def get_movies() -> MovieDocsResponseDto:
+    """
+    Асинхронный запрос.
+    Получить информацию о фильмы с использованием параметров
+    :return: Список фильмов
+    """
+    kp = KinopoiskDev(token=TOKEN)
+    item = kp.find_many_movie(
+        params=[
+            MovieParams(keys=MovieField.PAGE, value=1),
+            MovieParams(keys=MovieField.LIMIT, value=100),
+        ]
+    )
+    return item
 
 
-async def amain():
-    return await kp.afind_one_movie(666)
-
-
-if __name__ == "__main__":
-    item = main()
-    print(item)
-
-    item = asyncio.run(amain())
-    print(item)
+if __name__ == "__movie__":
+    adata = asyncio.run(get_movies_async())
+    data = get_movies()
