@@ -5,12 +5,12 @@ T = TypeVar("T")
 
 class BaseParams(Generic[T]):
     keys: Union[str, T]
-    value: str
+    value: Union[str, int]
 
     def __init__(
         self,
         keys: Union[str, T],
-        value: str,
+        value: Union[str, int],
     ):
         self.keys = keys
         self.value = value
