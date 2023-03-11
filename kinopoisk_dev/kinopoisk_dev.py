@@ -46,28 +46,28 @@ class KinopoiskDev:
         return Movie(**response)
 
     def possible_values_by_field(
-            self, poss_val_field: PossValField
+            self, params: PossValField
     ) -> List[PossibleValue]:
         """
         Синхронный метод.
         Получить все возможные значения полей
-        :param poss_val_field: Поле значение которого нужно нам получить
+        :param params: Поле значение которого нужно нам получить
         :return: Значение полей
         """
-        response = self.request.get(POSS_VAL_BY_FIELD, {"field": poss_val_field.value})
+        response = self.request.get(POSS_VAL_BY_FIELD, {"field": params.value})
         return PossibleValueDto.parse_obj(response).__root__
 
     async def apossible_values_by_field(
-            self, poss_val_field: PossValField
+            self, params: PossValField
     ) -> List[PossibleValue]:
         """
         Асинхронный метод.
         Получить все возможные значения полей
-        :param poss_val_field: Поле значение которого нужно нам получить
+        :param params: Поле значение которого нужно нам получить
         :return: Значение полей
         """
         response = await self.arequest.get(
-            POSS_VAL_BY_FIELD, {"field": poss_val_field.value}
+            POSS_VAL_BY_FIELD, {"field": params.value}
         )
         return PossibleValueDto.parse_obj(response).__root__
 
