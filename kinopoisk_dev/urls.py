@@ -1,0 +1,8 @@
+LINK = "https://api.kinopoisk.dev/v1/"
+RANDOM = f"{LINK}movie/random"
+POSS_VAL_BY_FIELD = f"{LINK}movie/possible-values-by-field"
+MOVIE = f"{LINK}movie"
+SEASON = f"{LINK}season"
+REVIEW = f"{LINK}review"
+PERSON = f"{LINK}person"
+IMAGE = f"{LINK}image"

@@ -3,147 +3,280 @@
     <p>Python-модуль для взаимодействия с неофициальным <a href="https://kinopoisk.dev/">API КиноПоиска</a></p>
 </div>
 
-### Установка
+## Установка
+
+### Pip
 
 ```
-$ pip install kinopoisk-dev
+pip install kinopoisk-dev
 ```
 
-### Получение токена
+### Poetry
+
+```
+poetry add kinopoisk-dev
+```
+
+## Получение токена
 
 Для получения токена необходимо перейти [kinopoisk.dev](https://kinopoisk.dev/documentation.html) и написать по
 контактам.
 
+## Методы взаимодействия
+
+### Random
+
+Получить рандомный тайтл из базы
+
+- Endpoint - `/v1/movie/random`
+- [Примеры](./example/example_movie_random.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(kp.arandom())
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.random()
+```
+
+### Possible values by field
+
+Получить все возможные значения полей
+
+- Endpoint - `/v1/movie/possible-values-by-field`
+- [Примеры](./example/example_movie_possible_values_by_field.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev, PossValField
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(kp.apossible_values_by_field(params=PossValField.GENRES))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, PossValField
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.possible_values_by_field(params=PossValField.GENRES)
+```
+
+### Movies
+
+Поиск тайтлов
+
+- Ендпоинт - `/v1/movie/`
+- [Примеры](./example/example_movie.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev, MovieParams, MovieField
+
+kp = KinopoiskDev(token=TOKEN)
+items = asyncio.run(kp.afind_many_movies(params=[
+    MovieParams(keys=MovieField.name, value="Аватар"),
+    MovieParams(keys=MovieField.page, value="1"),
+    MovieParams(keys=MovieField.limit, value="1000")
+]))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, MovieParams, MovieField
+
+kp = KinopoiskDev(token=TOKEN)
+items = kp.find_many_movies(params=[
+    MovieParams(keys=MovieField.name, value="Аватар"),
+    MovieParams(keys=MovieField.page, value="1"),
+    MovieParams(keys=MovieField.limit, value="1000")
+])
+```
+
 ### Movie
 
-Методы для работы с данными о фильмах
+Поиск по id
 
-#### Получить данные о фильме по Kinopoisk ID
+- Ендпоинт - `/v1/movie/{id}`
+- [Примеры](./example/example_movie_id.py)
 
-Возвращает информацию о фильме.
-
-* `Эндпоинт` - /movie
-* `Метод` - movie
+#### Async
 
 ```python
-from kinopoisk_dev import KinopoiskDev, IdField
+from kinopoisk_dev import KinopoiskDev
 
 kp = KinopoiskDev(token=TOKEN)
-item = kp.movie(field=IdField.KP, search="301")
+item = asyncio.run(kp.afind_one_movie(666))
 ```
 
-#### Сложная поисковая конструкция
-
-Можно задавать сложные конструкции для поиска.
-
-* `Эндпоинт` - /movie
-* `Метод` - movies
-
-##### Получить информацию по имени фильма
+#### Sync
 
 ```python
-from kinopoisk_dev import KinopoiskDev, Field, MovieParams
+from kinopoisk_dev import KinopoiskDev
 
 kp = KinopoiskDev(token=TOKEN)
-items = kp.movies([
-    MovieParams(field=Field.NAME, search='Аватар'),
-])
-```
-
-##### Пример из [документации](https://kinopoisk.dev/documentation.html#%D0%BF%D0%BE%D0%B8%D1%81%D0%BA-get-5)
-
-> Представим что нам нужно найти сериалы typeNumber - 2 с рейтингом kp от 7 до 10 которые были выпущены с 2017 по 2020 год. При этом мы ходим чтобы они были осортированы по году в порядке возрастания, но при этом были отсортированы по голосам на imdb в порядке убывания. Для этого нам придется подготовить параметры
-
-```python
-from kinopoisk_dev import KinopoiskDev, Field, MovieParams
-
-kp = KinopoiskDev(token=TOKEN)
-items = kp.movies([
-    MovieParams(field='rating.kp', search='7-10'),
-    MovieParams(field=Field.YEAR, search="2017-2020"),
-    MovieParams(field="typeNumber", search="2"),
-    MovieParams(sortField="year", sortType=1),
-    MovieParams(sortField="votes.imdb", sortType=-1),
-], limit=1000, page=1)
-```
-
-##### Получить информацию о списке фильмов
-
-```python
-from kinopoisk_dev import KinopoiskDev, Field, MovieParams
-
-kp = KinopoiskDev(token=TOKEN)
-items = kp.movies([
-    MovieParams(field='id', search='301'),
-    MovieParams(field=Field.KP, search="326"),
-])
+item = kp.find_one_movie(666)
 ```
 
 ### Season
 
-Методы для работы с сезонами сериалов
+- Ендпоинт - `/v1/season`
+- [Пример](./example/example_season.py)
 
-#### Получить сезоны сериалы
-
-Возвращает информацию о сезонах
-
-- `Эндпоиск` - /season
-- `Метод` - season
+#### Async
 
 ```python
-from kinopoisk_dev import KinopoiskDev, Field, SeasonParams
+import asyncio
+from kinopoisk_dev import KinopoiskDev, SeasonParams, SeasonField
 
 kp = KinopoiskDev(token=TOKEN)
-season = kp.season(field=Field.MOVIE_ID, search="1316601")
+item = asyncio.run(kp.aseasons(params=[
+    SeasonParams(keys=SeasonField.PAGE, value=1),
+    SeasonParams(keys=SeasonField.LIMIT, value=100)
+]))
 ```
 
-#### Получить сезоны списка сериалов
-
-Возвращает информацию о сезонах списка сериалов
-
-- `Эндпоиск` - /season
-- `Метод` - seasons
+#### Sync
 
 ```python
-from kinopoisk_dev import KinopoiskDev, Field, SeasonParams
+from kinopoisk_dev import KinopoiskDev, SeasonParams, SeasonField
 
 kp = KinopoiskDev(token=TOKEN)
-seasons = kp.seasons(params=[
-    SeasonParams(field=Field.MOVIE_ID, search="1316601"),
-    SeasonParams(field="movieId", search="4407805"),
-    SeasonParams(field=Field.MOVIE_ID, search="4476467"),
-    SeasonParams(field=Field.MOVIE_ID, search="4489470"),
-    SeasonParams(field=Field.MOVIE_ID, search="4670531"),
-    SeasonParams(field=Field.MOVIE_ID, search="571335"),
-], limit=1000, page=1, )
+item = kp.seasons(params=[
+    SeasonParams(keys=SeasonField.PAGE, value=1),
+    SeasonParams(keys=SeasonField.LIMIT, value=100)
+])
 ```
 
-### Модели параметров
+### Review
 
-#### MovieParams
+- Ендпоинт - `/v1/review`
+- [Пример](./example/example_review.py)
 
-Имеет следующие поля
+#### Async
 
-| Поля       | Тип данных| Описание                             |
-| ---------- |:----------|:-------------------------------------|
-| field      | str/Field | Поле по которому происходит поиск    |
-| search     | str       | Данные по которым происходит поиск   |
-| sortField  | str       | По какому полю происходит сортировка |
-| sortType   | int       | В каком порядке выводить(1\-1)       |
+```python
+import asyncio
 
-### Заготовленные поля
+from kinopoisk_dev import KinopoiskDev, ReviewParams, ReviewField
 
-#### Field
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(kp.areview(params=[
+    ReviewParams(keys=ReviewField.PAGE, value=1),
+    ReviewParams(keys=ReviewField.LIMIT, value=100)
+]))
+```
 
-| Поля       | Значение   | Описание |
-| ---------- |:----------:| :-----|
-| KP            | id              | Поиск по id kinopoisk |
-| IMDB          | externalId.imdb | Поиск по id imdb |
-| TMDB          | externalId.tmdb | Поиск по id tmdb |
-| TYPE          | type | Поиск по типу |
-| NAME          | name | Поиск по имени |
-| YEAR          | year | Поиск по году |
-| TYPE_NUMBER   | typeNumber | Поиск по typeNumber |
-| MOVIE_ID      | movieId | Поиск по movieId |
-| LANGUAGE      | language | Поиск по языку |
-| STATUS        | status | Поиск по статусу |
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, ReviewParams, ReviewField
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.review(params=[
+    ReviewParams(keys=ReviewField.PAGE, value=1),
+    ReviewParams(keys=ReviewField.LIMIT, value=100)
+])
+```
+
+### Persons
+
+- Ендпоинт - `/v1/person`
+- [Пример](./example/example_person.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev, PersonParams, PersonField
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(kp.afind_many_person(params=[
+    PersonParams(keys=PersonField.PAGE, value=1),
+    PersonParams(keys=PersonField.LIMIT, value=100)
+]))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, PersonParams, PersonField
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.find_many_person(params=[
+    PersonParams(keys=PersonField.PAGE, value=1),
+    PersonParams(keys=PersonField.LIMIT, value=100)
+])
+```
+
+### Person
+
+- Ендпоинт - `/v1/person/{id}`
+- [Пример](./example/example_person_id.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(kp.afind_one_person(24262))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.find_one_person(24262)
+```
+
+### Image
+
+- Ендпоинт - `/v1/image`
+- [Пример](./example/example_image.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev, ImageParams, ImageField
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(kp.aimage(params=[
+    ImageParams(keys=ImageField.PAGE, value=1),
+    ImageParams(keys=ImageField.LIMIT, value=100)
+]))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, ImageParams, ImageField
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.image(params=[
+    ImageParams(keys=ImageField.PAGE, value=1),
+    ImageParams(keys=ImageField.LIMIT, value=100)
+])
+
+```
