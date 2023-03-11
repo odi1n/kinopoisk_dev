@@ -120,6 +120,7 @@ items = kp.find_many_movies(params=[
 #### Async
 
 ```python
+import asyncio
 from kinopoisk_dev import KinopoiskDev
 
 kp = KinopoiskDev(token=TOKEN)
@@ -174,7 +175,6 @@ item = kp.seasons(params=[
 
 ```python
 import asyncio
-
 from kinopoisk_dev import KinopoiskDev, ReviewParams, ReviewField
 
 kp = KinopoiskDev(token=TOKEN)
