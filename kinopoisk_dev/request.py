@@ -29,7 +29,9 @@ class Request(RequestABC):
 class AsyncRequest(RequestABC):
     async def get(self, link: str, params: Optional[Dict[str, Any]] = None) -> Response:
         async with httpx.AsyncClient() as client:
-            response = await client.get(link, params=params, headers=self._headers)
+            response = await client.get(
+                link, params=params, headers=self._headers, timeout=15
+            )
 
         if response.status_code == 200:
             return response.json()

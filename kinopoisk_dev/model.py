@@ -79,7 +79,7 @@ class Video(BaseModel):
     name: Optional[str] = Field(example="Official Trailer")
     site: Optional[str] = Field(example="youtube")
     type: Optional[str] = Field(example="TRAILER")
-    size: float
+    size: Optional[float]
 
 
 class VideoTypes(BaseModel):
@@ -240,7 +240,7 @@ class Movie(BaseModel):
         description="Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`",
         example=200,
     )
-    enName: str
+    enName: Optional[str]
     facts: Optional[List[Fact]]
     imagesInfo: Optional[Images]
     productionCompanies: Optional[List[VendorImage]]
