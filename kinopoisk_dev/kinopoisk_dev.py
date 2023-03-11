@@ -21,6 +21,7 @@ class KinopoiskDev:
     """
     Реализация обертки на сервис kinopoisk.dev
     """
+
     __version__ = "1.0.3"
 
     def __init__(self, token: str) -> None:
@@ -45,9 +46,7 @@ class KinopoiskDev:
         response = await self.arequest.get(RANDOM)
         return Movie(**response)
 
-    def possible_values_by_field(
-            self, params: PossValField
-    ) -> List[PossibleValue]:
+    def possible_values_by_field(self, params: PossValField) -> List[PossibleValue]:
         """
         Синхронный метод.
         Получить все возможные значения полей
@@ -58,7 +57,7 @@ class KinopoiskDev:
         return PossibleValueDto.parse_obj(response).__root__
 
     async def apossible_values_by_field(
-            self, params: PossValField
+        self, params: PossValField
     ) -> List[PossibleValue]:
         """
         Асинхронный метод.
@@ -66,9 +65,7 @@ class KinopoiskDev:
         :param params: Поле значение которого нужно нам получить
         :return: Значение полей
         """
-        response = await self.arequest.get(
-            POSS_VAL_BY_FIELD, {"field": params.value}
-        )
+        response = await self.arequest.get(POSS_VAL_BY_FIELD, {"field": params.value})
         return PossibleValueDto.parse_obj(response).__root__
 
     def find_one_movie(self, id: int) -> Movie:
@@ -189,7 +186,7 @@ class KinopoiskDev:
         return PersonDocsResponseDto(**response)
 
     async def afind_many_person(
-            self, params: List[PersonParams]
+        self, params: List[PersonParams]
     ) -> PersonDocsResponseDto:
         """
         Асинхронный метод.
