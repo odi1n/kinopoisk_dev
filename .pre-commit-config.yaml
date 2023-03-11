@@ -23,6 +23,9 @@ repos:
     rev: v3.3.1
     hooks:
       - id: pyupgrade
+        args:
+            - --py38-plus
+            - --keep-runtime-typing
 
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
