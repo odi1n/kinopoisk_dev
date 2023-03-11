@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from .fields import PossValField
 from .model import (
@@ -89,7 +89,9 @@ class KinopoiskDev:
         response = await self.arequest.get(f"{MOVIE}/{id}")
         return Movie(**response)
 
-    def find_many_movie(self, params: List[MovieParams] = None) -> MovieDocsResponseDto:
+    def find_many_movie(
+        self, params: Optional[List[MovieParams]] = None
+    ) -> MovieDocsResponseDto:
         """
         Синхронный метод.
         Поиск тайтлов
@@ -100,7 +102,7 @@ class KinopoiskDev:
         return MovieDocsResponseDto(**responses)
 
     async def afind_many_movie(
-        self, params: List[MovieParams] = None
+        self, params: Optional[List[MovieParams]] = None
     ) -> MovieDocsResponseDto:
         """
         Асинхронный метод.
@@ -111,7 +113,9 @@ class KinopoiskDev:
         responses = await self.arequest.get(f"{MOVIE}?{get_params(params)}")
         return MovieDocsResponseDto(**responses)
 
-    def seasons(self, params: List[SeasonParams] = None) -> SeasonDocsResponseDto:
+    def seasons(
+        self, params: Optional[List[SeasonParams]] = None
+    ) -> SeasonDocsResponseDto:
         """
         Синхронный метод.
         Поиск сезонов
@@ -122,7 +126,7 @@ class KinopoiskDev:
         return SeasonDocsResponseDto(**responses)
 
     async def aseasons(
-        self, params: List[SeasonParams] = None
+        self, params: Optional[List[SeasonParams]] = None
     ) -> SeasonDocsResponseDto:
         """
         Асинхронный метод.
@@ -133,7 +137,9 @@ class KinopoiskDev:
         responses = await self.arequest.get(f"{SEASON}?{get_params(params)}")
         return SeasonDocsResponseDto(**responses)
 
-    def review(self, params: List[ReviewParams] = None) -> ReviewDocsResponseDto:
+    def review(
+        self, params: Optional[List[ReviewParams]] = None
+    ) -> ReviewDocsResponseDto:
         """
         Синхронный метод.
         Поиск отзывов
@@ -143,7 +149,9 @@ class KinopoiskDev:
         response = self.request.get(f"{REVIEW}?{get_params(params)}")
         return ReviewDocsResponseDto(**response)
 
-    async def areview(self, params: List[ReviewParams] = None) -> ReviewDocsResponseDto:
+    async def areview(
+        self, params: Optional[List[ReviewParams]] = None
+    ) -> ReviewDocsResponseDto:
         """
         Асинхронный метод.
         Поиск отзывов
@@ -174,7 +182,7 @@ class KinopoiskDev:
         return Person(**response)
 
     def find_many_person(
-        self, params: List[PersonParams] = None
+        self, params: Optional[List[PersonParams]] = None
     ) -> PersonDocsResponseDto:
         """
         Синхронный метод.
@@ -186,7 +194,7 @@ class KinopoiskDev:
         return PersonDocsResponseDto(**response)
 
     async def afind_many_person(
-        self, params: List[PersonParams] = None
+        self, params: Optional[List[PersonParams]] = None
     ) -> PersonDocsResponseDto:
         """
         Асинхронный метод.
@@ -197,7 +205,7 @@ class KinopoiskDev:
         response = await self.arequest.get(f"{PERSON}?{get_params(params)}")
         return PersonDocsResponseDto(**response)
 
-    def image(self, params: List[ImageParams] = None) -> ImageDocsResponseDto:
+    def image(self, params: Optional[List[ImageParams]] = None) -> ImageDocsResponseDto:
         """
         Синхронный метод.
         Поиск изображений
@@ -207,7 +215,9 @@ class KinopoiskDev:
         response = self.request.get(f"{PERSON}?{get_params(params)}")
         return ImageDocsResponseDto(**response)
 
-    async def aimage(self, params: List[ImageParams] = None) -> ImageDocsResponseDto:
+    async def aimage(
+        self, params: Optional[List[ImageParams]] = None
+    ) -> ImageDocsResponseDto:
         """
         Асинхронный метод.
         Поиск изображений
