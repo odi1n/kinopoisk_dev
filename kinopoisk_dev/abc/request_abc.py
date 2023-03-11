@@ -1,5 +1,5 @@
 import abc
-from typing import Any
+from typing import Any, Dict, Optional
 
 from httpx import Response
 
@@ -13,5 +13,5 @@ class RequestABC(abc.ABC):
         }
 
     @abc.abstractmethod
-    def get(self, link: str, params: dict[str, Any] = None) -> Response:
+    def get(self, link: str, params: Optional[Dict[str, Any]] = None) -> Response:
         pass

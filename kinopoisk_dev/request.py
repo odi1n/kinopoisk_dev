@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict, Optional
 
 import httpx
 from httpx import Response
@@ -8,7 +8,7 @@ from .exception import ApiFailedException, ApiNotFound, ApiUnauthenticated
 
 
 class Request(RequestABC):
-    def get(self, link: str, params: dict[str, Any] = None) -> Response:
+    def get(self, link: str, params: Optional[Dict[str, Any]] = None) -> Response:
         with httpx.Client() as client:
             response = client.get(
                 link, params=params, headers=self._headers, timeout=15
@@ -27,7 +27,7 @@ class Request(RequestABC):
 
 
 class AsyncRequest(RequestABC):
-    async def get(self, link: str, params: dict[str, Any] = None) -> Response:
+    async def get(self, link: str, params: Optional[Dict[str, Any]] = None) -> Response:
         async with httpx.AsyncClient() as client:
             response = await client.get(link, params=params, headers=self._headers)
 
