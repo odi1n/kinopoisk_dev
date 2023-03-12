@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -187,12 +187,12 @@ class VendorImage(BaseModel):
 
 class Movie(BaseModel):
     id: int = Field(..., description="Id фильма с кинопоиска", example=666)
-    externalId: ExternalId
+    externalId: Optional[ExternalId]
     name: Optional[str] = Field(example="Человек паук")
     alternativeName: Optional[str] = Field(example="Spider man")
     enName: Optional[str]
-    names: List[Name]
-    type: str = Field(
+    names: Optional[List[Name]]
+    type: Optional[str] = Field(
         description="Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show",
         example="movie",
     )
@@ -211,7 +211,7 @@ class Movie(BaseModel):
         description="Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production",
         example="completed",
     )
-    rating: Optional[Rating]
+    rating: Optional[Union[Rating, int]]
     votes: Optional[Votes]
     movieLength: Optional[int] = Field(
         description="Продолжительность фильма", example=120

@@ -7,6 +7,7 @@ from .model import (
     MovieAwardDocsResponseDto,
     MovieDocsResponseDto,
     Person,
+    PersonAwardDocsResponseDto,
     PersonDocsResponseDto,
     PossibleValue,
     PossibleValueDto,
@@ -17,13 +18,23 @@ from .params import (
     ImageParams,
     MovieAwardsParams,
     MovieParams,
+    PersonAwardsParams,
     PersonParams,
     ReviewParams,
     SeasonParams,
 )
 from .request import AsyncRequest, Request
 from .untils import get_params
-from .urls import MOVIE, MOVIE_AWARDS, PERSON, POSS_VAL_BY_FIELD, RANDOM, REVIEW, SEASON
+from .urls import (
+    MOVIE,
+    MOVIE_AWARDS,
+    PERSON,
+    PERSON_AWARDS,
+    POSS_VAL_BY_FIELD,
+    RANDOM,
+    REVIEW,
+    SEASON,
+)
 
 
 class KinopoiskDev:
@@ -193,6 +204,30 @@ class KinopoiskDev:
         response = await self.arequest.get(f"{REVIEW}?{get_params(params)}")
         return ReviewDocsResponseDto(**response)
 
+    def person_awards(
+        self, params: Optional[List[PersonAwardsParams]] = None
+    ) -> PersonAwardDocsResponseDto:
+        """
+        Синхронный метод.
+        Награды актеров
+        :param params: Список параметров
+        :return: Список информации о наградах актера
+        """
+        response = self.request.get(f"{PERSON_AWARDS}?{get_params(params)}")
+        return PersonAwardDocsResponseDto(**response)
+
+    async def aperson_awards(
+        self, params: Optional[List[PersonAwardsParams]] = None
+    ) -> PersonAwardDocsResponseDto:
+        """
+        Асинхронный метод.
+        Награды актеров
+        :param params: Список параметров
+        :return: Список информации о наградах актера
+        """
+        response = await self.arequest.get(f"{PERSON_AWARDS}?{get_params(params)}")
+        return PersonAwardDocsResponseDto(**response)
+
     def find_one_person(self, id: int) -> Person:
         """
         Синхронный метод.
@@ -236,6 +271,24 @@ class KinopoiskDev:
         """
         response = await self.arequest.get(f"{PERSON}?{get_params(params)}")
         return PersonDocsResponseDto(**response)
+
+    def find_one_studio(self):
+        pass
+
+    async def afind_one_studio(self):
+        pass
+
+    def find_many_studio(self):
+        pass
+
+    async def afind_many_studio(self):
+        pass
+
+    def find_many_keyword(self):
+        pass
+
+    async def afind_many_keyword(self):
+        pass
 
     def image(self, params: Optional[List[ImageParams]] = None) -> ImageDocsResponseDto:
         """
