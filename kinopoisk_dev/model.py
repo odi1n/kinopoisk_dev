@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -24,6 +25,8 @@ class ExternalId(BaseModel):
 
 class Name(BaseModel):
     name: Optional[str]
+    language: Optional[str]
+    type: Optional[str]
 
 
 class Rating(BaseModel):
@@ -164,7 +167,7 @@ class YearRange(BaseModel):
     end: Optional[int] = Field(description="Год окончания", example=2023)
 
 
-class Fact(BaseModel):
+class FactInMovie(BaseModel):
     value: str
     type: str
     spoiler: bool
@@ -187,6 +190,7 @@ class Movie(BaseModel):
     externalId: ExternalId
     name: Optional[str] = Field(example="Человек паук")
     alternativeName: Optional[str] = Field(example="Spider man")
+    enName: Optional[str]
     names: List[Name]
     type: str = Field(
         description="Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show",
@@ -240,8 +244,7 @@ class Movie(BaseModel):
         description="Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`",
         example=200,
     )
-    enName: Optional[str]
-    facts: Optional[List[Fact]]
+    facts: Optional[List[FactInMovie]]
     imagesInfo: Optional[Images]
     productionCompanies: Optional[List[VendorImage]]
 
@@ -257,8 +260,24 @@ class PossibleValueDto(BaseModel):
     __root__: List[PossibleValue]
 
 
-class MovieDocsResponseDto(Pages):
-    docs: List[Movie]
+class NominationAward(BaseModel):
+    title: str
+    year: float
+
+
+class Nomination(BaseModel):
+    award: NominationAward
+    title: str
+
+
+class PartialTypeClass(BaseModel):
+    nomination: Optional[Nomination] = None
+    winning: Optional[bool] = None
+    movieId: Optional[int] = None
+
+
+class MovieAwardDocsResponseDto(Pages):
+    docs: List[PartialTypeClass]
 
 
 class UnauthorizedErrorResponseDto(BaseModel):
@@ -275,12 +294,14 @@ class ErrorResponseDto(UnauthorizedErrorResponseDto):
     pass
 
 
+class MovieDocsResponseDto(Pages):
+    docs: List[Movie]
+
+
 class Episode(BaseModel):
-    movieId: Optional[int]
-    seasonNumber: Optional[int]
-    episodeNumber: Optional[int]
+    number: Optional[int]
     name: Optional[str]
-    alternativeName: Optional[str]
+    enName: Optional[str]
     description: Optional[str]
     date: Optional[str]
 
@@ -310,6 +331,17 @@ class Review(BaseModel):
 
 class ReviewDocsResponseDto(Pages):
     docs: List[Review]
+
+
+class PersonAward(BaseModel):
+    nomination: Nomination
+    winning: bool
+    personId: float
+    movie: Movie
+
+
+class PersonAwardDocsResponseDto(BaseModel):
+    docs: List[PersonAward]
 
 
 class BirthPlace(BaseModel):
@@ -369,6 +401,43 @@ class Person(BaseModel):
 
 class PersonDocsResponseDto(BaseModel):
     docs: List[Person]
+
+
+class MovieFromStudio(BaseModel):
+    id: Optional[float] = None
+
+
+class StudioType(Enum):
+    PRODUCTION = "Производство"
+    SPECIAL_EFFECTS = "Спецэффекты"
+    RENTAL = "Прокат"
+    DUBBING_STUDIO = "Студия дубляжа"
+
+
+class Studio(BaseModel):
+    id: str
+    subType: str
+    title: str
+    type: Optional[StudioType]
+    movies: Optional[MovieFromStudio]
+
+
+class StudioDocsResponseDto(BaseModel):
+    docs: List[Studio]
+
+
+class MovieFromKeyword(BaseModel):
+    id: Optional[int]
+
+
+class Keyword(BaseModel):
+    id: str
+    title: str
+    movies: Optional[MovieFromKeyword]
+
+
+class KeywordDocsResponseDto(BaseModel):
+    docs: List[Keyword]
 
 
 class Image(BaseModel):
