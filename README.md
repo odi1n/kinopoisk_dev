@@ -76,6 +76,38 @@ kp = KinopoiskDev(token=TOKEN)
 item = kp.possible_values_by_field(params=PossValField.GENRES)
 ```
 
+### Moview Awards
+
+Награды тайтлов
+
+- Ендпоинт - `/v1.1/movie/awards`
+- [Примеры](./example/example_movie_awards.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev, MovieAwardsField, MovieAwardsParams
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(await kp.amovie_awards(params=[
+    MovieAwardsParams(keys=MovieAwardsField.PAGE, value=1),
+    MovieAwardsParams(keys=MovieAwardsField.LIMIT, value=100),
+]))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, MovieAwardsField, MovieAwardsParams
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.movie_awards(params=[
+    MovieAwardsParams(keys=MovieAwardsField.PAGE, value=1),
+    MovieAwardsParams(keys=MovieAwardsField.LIMIT, value=100),
+])
+```
+
 ### Movies
 
 Поиск тайтлов
@@ -193,6 +225,38 @@ kp = KinopoiskDev(token=TOKEN)
 item = kp.review(params=[
     ReviewParams(keys=ReviewField.PAGE, value=1),
     ReviewParams(keys=ReviewField.LIMIT, value=100)
+])
+```
+
+### Person Awards
+
+Награды актеров
+
+- Ендпоинт - `/v1.1/person/awards`
+- [Пример](./example/example_person_awards.py)
+
+#### Async
+
+```python
+import asyncio
+from kinopoisk_dev import KinopoiskDev, PersonAwardsField, PersonAwardsParams
+
+kp = KinopoiskDev(token=TOKEN)
+item = asyncio.run(await kp.aperson_awards(params=[
+    PersonAwardsParams(keys=PersonAwardsField.PAGE, value=1),
+    PersonAwardsParams(keys=PersonAwardsField.LIMIT, value=100),
+]))
+```
+
+#### Sync
+
+```python
+from kinopoisk_dev import KinopoiskDev, PersonAwardsField, PersonAwardsParams
+
+kp = KinopoiskDev(token=TOKEN)
+item = kp.person_awards(params=[
+    PersonAwardsParams(keys=PersonAwardsField.PAGE, value=1),
+    PersonAwardsParams(keys=PersonAwardsField.LIMIT, value=100),
 ])
 ```
 
