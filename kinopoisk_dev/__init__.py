@@ -1,5 +1,6 @@
 from .fields import (  # noqa
     ImageField,
+    MovieAwardsField,
     MovieField,
     PersonField,
     PossValField,
@@ -9,6 +10,7 @@ from .fields import (  # noqa
 from .kinopoisk_dev import KinopoiskDev  # noqa
 from .params import (  # noqa
     ImageParams,
+    MovieAwardsParams,
     MovieParams,
     PersonParams,
     ReviewParams,

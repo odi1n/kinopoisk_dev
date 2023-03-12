@@ -4,6 +4,7 @@ from .fields import PossValField
 from .model import (
     ImageDocsResponseDto,
     Movie,
+    MovieAwardDocsResponseDto,
     MovieDocsResponseDto,
     Person,
     PersonDocsResponseDto,
@@ -12,10 +13,17 @@ from .model import (
     ReviewDocsResponseDto,
     SeasonDocsResponseDto,
 )
-from .params import ImageParams, MovieParams, PersonParams, ReviewParams, SeasonParams
+from .params import (
+    ImageParams,
+    MovieAwardsParams,
+    MovieParams,
+    PersonParams,
+    ReviewParams,
+    SeasonParams,
+)
 from .request import AsyncRequest, Request
 from .untils import get_params
-from .urls import MOVIE, PERSON, POSS_VAL_BY_FIELD, RANDOM, REVIEW, SEASON
+from .urls import MOVIE, MOVIE_AWARDS, PERSON, POSS_VAL_BY_FIELD, RANDOM, REVIEW, SEASON
 
 
 class KinopoiskDev:
@@ -23,7 +31,7 @@ class KinopoiskDev:
     Реализация обертки на сервис kinopoisk.dev
     """
 
-    __version__ = "1.0.3"
+    __version__ = "1.1.0"
 
     def __init__(self, token: str) -> None:
         self.request = Request(token=token)
@@ -68,6 +76,30 @@ class KinopoiskDev:
         """
         response = await self.arequest.get(POSS_VAL_BY_FIELD, {"field": params.value})
         return PossibleValueDto.parse_obj(response).__root__
+
+    def movie_awards(
+        self, params: Optional[List[MovieAwardsParams]] = None
+    ) -> MovieAwardDocsResponseDto:
+        """
+        Синхронный метод.
+        Получить наградные тайтлы с использованием параметров
+        :param params: Список параметров
+        :return: Спислк тайтлов
+        """
+        response = self.request.get(f"{MOVIE_AWARDS}?{get_params(params)}")
+        return MovieAwardDocsResponseDto(**response)
+
+    async def amovie_awards(
+        self, params: Optional[List[MovieAwardsParams]] = None
+    ) -> MovieAwardDocsResponseDto:
+        """
+        Асинхронный метод.
+        Получить наградные тайтлы с использованием параметров
+        :param params: Список параметров
+        :return: Спислк тайтлов
+        """
+        response = await self.arequest.get(f"{MOVIE_AWARDS}?{get_params(params)}")
+        return MovieAwardDocsResponseDto(**response)
 
     def find_one_movie(self, id: int) -> Movie:
         """
