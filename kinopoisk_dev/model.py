@@ -183,12 +183,12 @@ class VendorImage(BaseModel):
 
 
 class Movie(BaseModel):
-    id: int = Field(..., description="Id фильма с кинопоиска", example=666)
-    externalId: ExternalId
+    id: Optional[int] = Field(..., description="Id фильма с кинопоиска", example=666)
+    externalId: Optional[ExternalId]
     name: Optional[str] = Field(example="Человек паук")
     alternativeName: Optional[str] = Field(example="Spider man")
-    names: List[Name]
-    type: str = Field(
+    names: Optional[List[Name]]
+    type: Optional[str] = Field(
         description="Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show",
         example="movie",
     )
